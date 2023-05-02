@@ -27,7 +27,8 @@ import { AuthGuard } from './auth/auth.guard';
     AppService,
     // 全局jwt身份验证token，通过auth/decorators/public 方法去除是否jwt验证
     // 也可以在main.ts中全局使用这个，但推荐通过这里
-    { provide: APP_GUARD, useClass: AuthGuard }
+    { provide: APP_GUARD, useClass: AuthGuard },
+    // { provide: APP_GUARD, useClass: AuthGuard }
   ],
 })
 export class AppModule {}

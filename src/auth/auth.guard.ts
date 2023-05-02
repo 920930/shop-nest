@@ -12,7 +12,7 @@ export class AuthGuard implements CanActivate {
     // 是否需要jwt认证
     const isPublic = this.reflector.getAllAndOverride(IS_PUBLIC, [context.getHandler(), context.getClass()])
     if(isPublic) return true;
-    
+
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
     if(!token) throw new UnauthorizedException();
