@@ -10,7 +10,7 @@ export class AuthGuard implements CanActivate {
   constructor(private jwtService: JwtService, private reflector: Reflector){}
   async canActivate(context: ExecutionContext): Promise<boolean> {
     // 是否需要jwt认证
-    const isPublic = this.reflector.getAllAndOverride(IS_PUBLIC, [context.getHandler(), context.getClass()])
+    const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC, [context.getHandler(), context.getClass()])
     if(isPublic) return true;
 
     const request = context.switchToHttp().getRequest();
