@@ -1,5 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import * as dotenv from 'dotenv'
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
@@ -9,18 +12,31 @@ import { AuthGuard } from './auth/auth.guard';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-    type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: '123456',
-      database: 'shop',
-      synchronize: true,
-      autoLoadEntities: true,
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: ['.env', `.env.${process.env.NODE_ENV || 'development'}`],
+      // load: [() => dotenv.config({ path: '.env' })]
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => {
+        console.log(configService.get('NODE_ENV'))
+        console.log(configService.get('DB_PASSWORD'))
+        return {
+          type: configService.get<'mysql'>('DB_TYPE'),
+          host: 'localhost',
+          port: 3306,
+          username: 'root',
+          password: '123456',
+          database: 'shop',
+          synchronize: true,
+          autoLoadEntities: true,
+        }
+      },
     }),
     UserModule,
-    AuthModule
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [
@@ -31,4 +47,4 @@ import { AuthGuard } from './auth/auth.guard';
     // { provide: APP_GUARD, useClass: AuthGuard }
   ],
 })
-export class AppModule {}
+export class AppModule { }
