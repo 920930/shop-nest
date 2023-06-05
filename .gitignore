@@ -2,6 +2,10 @@
 /dist
 /node_modules
 
+# env
+.env.production
+.env.prod
+
 # Logs
 logs
 *.log
@@ -11,9 +15,6 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
-# env
-.env.production
-.env.prod
 
 # OS
 .DS_Store
