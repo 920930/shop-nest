@@ -3,8 +3,8 @@
 /node_modules
 
 # env
-.env.production
 .env.prod
+.env.production
 
 # Logs
 logs
