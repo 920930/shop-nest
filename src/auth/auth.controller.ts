@@ -8,12 +8,12 @@ import { Public } from './decorators/public.decorator';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-  
+
   @Post('login')
   login(@Body(LoginPipe) createAuthDto: CreateAuthDto) {
     return this.authService.login(createAuthDto);
   }
-  
+
   @Post('register')
   register(@Body() createAuthDto: CreateAuthDto) {
     return this.authService.login(createAuthDto);

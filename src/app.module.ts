@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import * as dotenv from 'dotenv'
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -21,18 +20,16 @@ import { AuthGuard } from './auth/auth.guard';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
-        console.log(configService.get('NODE_ENV'))
-        console.log(configService.get('DB_PASSWORD'))
         return {
           type: configService.get<'mysql'>('DB_TYPE'),
           host: 'localhost',
           port: 3306,
-          username: 'root',
-          password: '123456',
-          database: 'shop',
+          username: configService.get<string>('DB_USERNAME'),
+          password: configService.get<string>('DB_PASSWORD'),
+          database: configService.get<string>('DB_DATABASE'),
           synchronize: true,
           autoLoadEntities: true,
-        }
+        };
       },
     }),
     UserModule,
@@ -47,4 +44,4 @@ import { AuthGuard } from './auth/auth.guard';
     // { provide: APP_GUARD, useClass: AuthGuard }
   ],
 })
-export class AppModule { }
+export class AppModule {}
