@@ -8,7 +8,7 @@ export class AuthService {
   constructor(
     private userService: UserService,
     private jwtService: JwtService,
-  ) {}
+  ) { }
   async login(info: CreateAuthDto) {
     const payload = { name: info.name, id: 'user.userId' };
     return {
