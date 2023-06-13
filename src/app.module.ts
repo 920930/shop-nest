@@ -27,6 +27,7 @@ import { AuthGuard } from './auth/auth.guard';
           username: configService.get<string>('DB_USERNAME'),
           password: configService.get<string>('DB_PASSWORD'),
           database: configService.get<string>('DB_DATABASE'),
+          entities: [],
           synchronize: true,
           autoLoadEntities: true,
         };
